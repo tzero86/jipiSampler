@@ -1,12 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <script src="js/nexusUI.js" type="text/javascript"></script>
+    <script src="js/tone.js" type="text/javascript"></script>
+    <title>Jipi Sampler</title>
+    <script>
+        var delay = new Tone.FeedbackDelay("16n", 0.5).toMaster();
+        var sampler = new Tone.Player("noisecollector__hit4.wav", function () {
+            console.log("samples loaded");
+        })
+        sampler.retrigger = true;
+        sampler.connect(delay);
+        // sampler.play('0')
+
+        // }
+
+        nx.onload = function () {
+            //
+            button1.on('*', function (data) {
+                if (data.press == 1) {
+                    console.log(data);
+                    sampler.start();
+                }
+                // sampler.stop('+0.7');
+            })
+            dial1.on('*', function (data) {
+                delay.delayTime.value = data.value;
+            })
+            dial2.on('*', function (data) {
+                delay.feedback.value = data.value;
+            })
+            dial3.on('*', function (data) {
+                sampler.playbackRate = data.value;
+            })
+
+        }
+    </script>
 </head>
-<body>
-    
+
+<body style="background-color:#ddd">
+            <canvas nx="button"></canvas>
+            <canvas nx="dial"></canvas>
+            <canvas nx="dial"></canvas>
+            <canvas nx="dial"></canvas>
+            <h4>Play - Delay Time - Delay Feeback - Playback Rate </h4>
 </body>
+
 </html>
